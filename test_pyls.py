@@ -3,6 +3,8 @@
 # Mostly not needed initially, but you'll call on it in some cases.
 # See documentation on pytest.
 import pytest
+import os
+from logger import logger, log_function
 
 # Import the module whose procedures and functions you want to test here.
 import pyls
@@ -24,5 +26,35 @@ def test_dummy_fails():
     """
     assert 2 == 3, "Two and three must be the same. (Really?)"
 
+def os_list_test(dirname, longform, formatted):
+    """
+    Test the os.listdir function.
+    """
+    dir_list = os.listdir(dirname)
+    if longform:
+        for entry in dir_list:
+            path = os.path.join(".", entry)
+            if os.path.isdir(path):
+                print(f"{entry}/")
+            else:
+                print(f"{entry}*")
+    elif formatted:
+        pass
 
+@log_function
+def logger_testing():
+    logger.info('This is an info message')
+    logger.debug('This is a debug message')
+    logger.warning('This is a warning message')
+    logger.error('This is an error message')
+    logger.critical('This is a critical message')
 
+    try:
+        return logger.debug('Function exited')
+    except:
+        raise RuntimeError('Error returning in the function')
+
+def main():
+    logger.info('No script errors detected. Proceeding with execution ...')
+
+main()
