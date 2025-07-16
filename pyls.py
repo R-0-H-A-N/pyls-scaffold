@@ -3,7 +3,6 @@
 import argparse
 import os
 import datetime
-from logger import logger, log_function
 
 
 def main() -> None:
@@ -45,8 +44,8 @@ def main() -> None:
     # as help. This is a convention employed by most command line programs.
     args = parser.parse_args()
 
-@log_function
-def pyls(dirname: str, longform: bool, formatted: bool) -> None:
+
+def pyls(dirname: str, longform: bool = False, formatted: bool = False) -> None:
     """
     DATA REPRESENTATION
     -------------------
@@ -83,25 +82,9 @@ def pyls(dirname: str, longform: bool, formatted: bool) -> None:
         for entry in dir_list:
             path = os.path.join(".", entry)
             if os.path.isdir(path):
-                stat = os.stat(path)
-                atime = datetime.datetime.fromtimestamp(stat.st_atime).strftime(
-                    "%Y-%m-%d %H:%M:%S"
-                )
-                mtime = datetime.datetime.fromtimestamp(stat.st_mtime).strftime(
-                    "%Y-%m-%d %H:%M:%S"
-                )
-                size_mb = stat.st_size / (1024)
-                print(f"Last modified: {mtime} | Last Accessed: {atime} | {size_mb:.2f} KB | {entry}/ \n")
+                longform_getinfo(path, entry, "/")
             else:
-                stat = os.stat(path)
-                atime = datetime.datetime.fromtimestamp(stat.st_atime).strftime(
-                    "%Y-%m-%d %H:%M:%S"
-                )
-                mtime = datetime.datetime.fromtimestamp(stat.st_mtime).strftime(
-                    "%Y-%m-%d %H:%M:%S"
-                )
-                size_mb = stat.st_size / (1024)
-                print(f"Last modified: {mtime} | Last Accessed: {atime} | {size_mb:.2f} KB | {entry}* \n")
+                longform_getinfo(path, entry)
     elif formatted:
         # Only if formatted it toggled on
         for entry in dir_list:
@@ -109,22 +92,38 @@ def pyls(dirname: str, longform: bool, formatted: bool) -> None:
             if os.path.isdir(path):
                 print(f"{entry}/")
             else:
-                print(f"{entry}*")
+                print(f"{entry}")
     elif longform:
         # Only if Longform is toggled on
         for entry in dir_list:
             path = os.path.join(".", entry)
-            stat = os.stat(path)
-            atime = datetime.datetime.fromtimestamp(stat.st_atime).strftime(
-                "%Y-%m-%d %H:%M:%S"
-            )
-            mtime = datetime.datetime.fromtimestamp(stat.st_mtime).strftime(
-                "%Y-%m-%d %H:%M:%S"
-            )
-            size_mb = stat.st_size / (1024)
-            print(f"Last modified: {mtime} | Last Accessed: {atime} | {size_mb:.2f} KB | {entry} \n")
+            longform_getinfo(path, entry)
     else:
         print(dir_list)
+
+
+def longform_getinfo(path: str, entry: str, suffix: str = ""):
+    """
+    This is a helper function for the longform info code block
+
+    SIGNATURE
+    ---------
+        str, str, str -> None
+
+    PARAMETERS
+    ----------
+    - :param path: Path of the file/directory
+    - :param dir_list: The list of strings of the files and directories in the specified location
+    - :param suffix: The end character used to differentiate between a file and a directory when looking at the stdout (OPTIONAL)
+    """
+
+    stat = os.stat(path)
+    atime = datetime.datetime.fromtimestamp(stat.st_atime).strftime("%Y-%m-%d %H:%M:%S")
+    mtime = datetime.datetime.fromtimestamp(stat.st_mtime).strftime("%Y-%m-%d %H:%M:%S")
+    size_kb = stat.st_size / (1024)
+    print(
+        f"Last modified: {mtime} | Last Accessed: {atime} | {size_kb:.2f} KB | {entry}{suffix} \n"
+    )
 
 
 # A python module may be loaded in one of two ways --
@@ -137,4 +136,3 @@ def pyls(dirname: str, longform: bool, formatted: bool) -> None:
 if __name__ == "__main__":
     # Function sig: dirname: str, longform: bool, formatted: bool
     pyls(".", True, True)
-    logger.debug(f'End of script: {os.path.basename(os.path.abspath(__file__))}')
