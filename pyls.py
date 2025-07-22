@@ -45,7 +45,7 @@ def main() -> None:
     args = parser.parse_args()
 
 
-def pyls(dirname: str, longform: bool = False, formatted: bool = False) -> None:
+def pyls(dirname: str = '.', longform: bool = False, formatted: bool = False) -> None:
     """
     DATA REPRESENTATION
     -------------------
@@ -70,10 +70,36 @@ def pyls(dirname: str, longform: bool = False, formatted: bool = False) -> None:
 
     EXAMPLES
     --------
+    # List all files and directories in the current directory (default, no options)
+    pyls(".")
+    # Output: ['file1.txt', 'file2.py', 'subdir', ...]
 
-    TODO: Below, give a few examples of what you expect the procedure to do when you
-    give various inputs. This can help you think about what to implement.
-    Consider various possible combinations.
+    # List all files and directories in the specified directory
+    pyls("/tmp")
+    # Output: ['temp1.txt', 'temp2.log', 'folderA', ...]
+
+    # List with longform details (timestamps, size, name)
+    pyls(".", longform=True)
+    # Output:
+    # Last modified: 2024-06-01 12:00:00 | Last Accessed: 2024-06-01 12:00:00 | 1.23 KB | file1.txt
+    # Last modified: ... | ... | ... | subdir
+    # ...
+
+    # List with formatted output (add '/' for directories)
+    pyls(".", formatted=True)
+    # Output:
+    # file1.txt
+    # file2.py
+    # subdir/
+    # ...
+
+    # List with both longform and formatted output
+    pyls(".", longform=True, formatted=True)
+    # Output:
+    # Last modified: 2024-06-01 12:00:00 | Last Accessed: 2024-06-01 12:00:00 | 1.23 KB | file1.txt
+    # Last modified: ... | ... | ... | subdir/
+    # ...
+    
     """
     # Replace the "pass" below with your implementation.
     dir_list = os.listdir(dirname)
