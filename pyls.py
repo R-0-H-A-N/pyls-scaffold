@@ -61,9 +61,6 @@ def pyls(dirname: str = '.', longform: bool = False, formatted: bool = False) ->
 
     PURPOSE
     -------
-
-    TODO: Replace this content with a sentence or two describing what this
-    function does.
     - :param dirname: Lists all the files and directories in the specified directory
     - :param longform: Prints additional details about the files and directories in the specified folder/directory
     - :param formatted: Prints additional characters to show if the listed names are files or directories
@@ -101,7 +98,6 @@ def pyls(dirname: str = '.', longform: bool = False, formatted: bool = False) ->
     # ...
     
     """
-    # Replace the "pass" below with your implementation.
     dir_list = os.listdir(dirname)
     if formatted and longform:
         # If both Longform and formatted is toggled on
@@ -160,5 +156,5 @@ def longform_getinfo(path: str, entry: str, suffix: str = ""):
 #    "module" that exposes functions and values via `myfile.` notation within the
 #    importing python file. In this case, __name__ will be "myfile" and not "__main__".
 if __name__ == "__main__":
-    # Function sig: dirname: str, longform: bool, formatted: bool
+    # Function signature: dirname: str, longform: bool, formatted: bool
     pyls(".", True, True)
