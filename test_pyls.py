@@ -62,10 +62,6 @@ def test_capture_pytest(capture_stdout):
 
 
 def test_pyls_sample_dir(capture_stdout):
-    import sys
-    import tempfile
-    import os
-
     with tempfile.TemporaryDirectory() as tmpdirname:
         os.mkdir(os.path.join(tmpdirname, "subdir"))
         with open(os.path.join(tmpdirname, "file1.txt"), "w") as f:
