@@ -1,5 +1,3 @@
-# Imports make the mentioned "modules" accessible to the code within
-# this file, which is itself a "module".
 import argparse
 import os
 import datetime
@@ -45,7 +43,7 @@ def main() -> None:
     args = parser.parse_args()
 
 
-def pyls(dirname: str = '.', longform: bool = False, formatted: bool = False) -> None:
+def pyls(dirname: str = ".", longform: bool = False, formatted: bool = False) -> None:
     """
     DATA REPRESENTATION
     -------------------
@@ -96,13 +94,13 @@ def pyls(dirname: str = '.', longform: bool = False, formatted: bool = False) ->
     # Last modified: 2024-06-01 12:00:00 | Last Accessed: 2024-06-01 12:00:00 | 1.23 KB | file1.txt
     # Last modified: ... | ... | ... | subdir/
     # ...
-    
+
     """
     dir_list = os.listdir(dirname)
     if formatted and longform:
         # If both Longform and formatted is toggled on
         for entry in dir_list:
-            path = os.path.join(".", entry)
+            path = os.path.join(dirname, entry)
             if os.path.isdir(path):
                 longform_getinfo(path, entry, "/")
             else:
@@ -110,7 +108,7 @@ def pyls(dirname: str = '.', longform: bool = False, formatted: bool = False) ->
     elif formatted:
         # Only if formatted it toggled on
         for entry in dir_list:
-            path = os.path.join(".", entry)
+            path = os.path.join(dirname, entry)
             if os.path.isdir(path):
                 print(f"{entry}/")
             else:
@@ -118,7 +116,7 @@ def pyls(dirname: str = '.', longform: bool = False, formatted: bool = False) ->
     elif longform:
         # Only if Longform is toggled on
         for entry in dir_list:
-            path = os.path.join(".", entry)
+            path = os.path.join(dirname, entry)
             longform_getinfo(path, entry)
     else:
         print(dir_list)
@@ -157,4 +155,4 @@ def longform_getinfo(path: str, entry: str, suffix: str = ""):
 #    importing python file. In this case, __name__ will be "myfile" and not "__main__".
 if __name__ == "__main__":
     # Function signature: dirname: str, longform: bool, formatted: bool
-    pyls(".", True, True)
+    pyls(".", False, True)
