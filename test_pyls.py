@@ -62,6 +62,29 @@ def test_capture_pytest(capture_stdout):
 
 
 def test_pyls_sample_dir(capture_stdout):
+    sample_filenames = [
+        "File1.txt",
+        "File_1.txt",
+        "file1.txt",
+        "Computersciencefile.txt",
+        "notes.mdSomething.mdsomething_else.py",
+    ]
+    sample_dirnames = [
+        "subdir",
+        "data",
+        "images",
+        "archive",
+        "docs"
+        "qwertyuiopqpowdmwofwfbibvuibuwbnvuwbvuwbvwbviwbvuwbviwbvwbvwunbwjncjncjwncjnwcvn",
+    ]
+    sample_filecontent = [
+        "Hello, world!",  # 13 bytes
+        "Sample content for testing.",  # 28 bytes
+        "Another file with text.",  # 24 bytes
+        "Python is fun.",  # 15 bytes
+        "End of file.",  # 12 bytes
+    ]
+
     with tempfile.TemporaryDirectory() as tmpdirname:
         os.mkdir(os.path.join(tmpdirname, "subdir"))
         with open(os.path.join(tmpdirname, "file1.txt"), "w") as f:
@@ -71,11 +94,10 @@ def test_pyls_sample_dir(capture_stdout):
         with open(os.path.join(tmpdirname, "subdir", "file3.txt"), "w") as f:
             f.write("!")
 
-
         old_stdout = sys.stdout
         sys.stdout = capture_stdout
         try:
-            pyls.pyls(tmpdirname ,formatted=True)
+            pyls.pyls(tmpdirname, formatted=True)
         finally:
             sys.stdout = old_stdout
 
@@ -84,7 +106,9 @@ def test_pyls_sample_dir(capture_stdout):
         assert "file1.txt" in output
         assert "file2.txt" in output
         assert "subdir/" in output
-        assert "subdir" not in output.replace("subdir/", "") # Checking if the formatting has been properly applied to the output
+        assert "subdir" not in output.replace(
+            "subdir/", ""
+        )  # Checking if the formatting has been properly applied to the output
 
 
 def test_longform():
@@ -122,6 +146,7 @@ def os_list_test(dirname, longform, formatted):
                 print(f"{entry}*")
     elif formatted:
         pass
+
 
 def main():
     pass
